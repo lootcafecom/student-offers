@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile & IoT Student Discounts — Student Stash</title>
+<meta name="description" content="2 student discounts and free tools in Mobile & IoT. Mobile development and IoT hardware/software discounts.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="top-strip"></div>
+<nav class="navbar">
+  <div class="wrap">
+    <a class="brand" href="../../"><span class="mark">S</span>Student Stash</a>
+    <div class="nav-right">
+      <a class="nav-link-btn" href="../"><span class="full">Browse by </span>category</a>
+      <div class="nav-badge">2 offers</div>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
+  <p class="crumb"><a href="../../">Home</a> / <a href="../">Categories</a> / Mobile &amp; IoT</p>
+</div>
+
+<header class="cat-hero">
+  <div class="wrap">
+    <h1>Mobile &amp; IoT</h1>
+    <p class="count">2 offers &middot; Mobile development and IoT hardware/software discounts.</p>
+    <div class="cat-search">
+      <input id="search" type="text" placeholder="Search within Mobile &amp; IoT...">
+    </div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="grid" id="grid">
+      <div class="card" style="--glow-rgb: 255,171,145;" data-search="termius premium plan">
+        <div class="card-top">
+          <div class="favicon"><img src="https://www.google.com/s2/favicons?sz=128&domain=termius.com" data-idx="0" data-domain="termius.com" data-fallback="T" onerror="handleImgError(this)" alt=""></div>
+          <div class="card-head">
+            <h3>termius</h3>
+            <span class="cat-tag"><span class="dot" style="background:#FFAB91"></span>Mobile &amp; IoT</span>
+            <div class="verified-badge">GITHUB ED. PARTNER</div>
+            
+          </div>
+        </div>
+        <p class="benefit">Premium Plan</p>
+        <div class="card-foot">
+          <span class="value-chip empty">—</span>
+          <a class="claim" href="https://termius.com/education" target="_blank" rel="noopener">Get it &rarr;</a>
+        </div>
+      </div>
+
+      <div class="card" style="--glow-rgb: 255,171,145;" data-search="voxi for students students get first month free.">
+        <div class="card-top">
+          <div class="favicon"><img src="https://www.google.com/s2/favicons?sz=128&domain=www.voxi.co.uk" data-idx="0" data-domain="www.voxi.co.uk" data-fallback="V" onerror="handleImgError(this)" alt=""></div>
+          <div class="card-head">
+            <h3>VOXI for Students</h3>
+            <span class="cat-tag"><span class="dot" style="background:#FFAB91"></span>Mobile &amp; IoT</span>
+            
+            
+          </div>
+        </div>
+        <p class="benefit">Students get first month free.</p>
+        <div class="card-foot">
+          <span class="value-chip ">FREE</span>
+          <a class="claim" href="https://www.voxi.co.uk/acquisition/students" target="_blank" rel="noopener">Get it &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+document.getElementById('search').addEventListener('input', (e) => {
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll('#grid .card').forEach(card => {
+    card.style.display = card.dataset.search.includes(q) ? '' : 'none';
+  });
+});
+</script>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand"><span class="mark">S</span>Student Stash</div>
+    <p class="foot-tagline">A searchable index of student discounts and free tools, compiled from open, community-maintained sources.</p>
+    <div class="foot-bottom">
+      <span>Compiled from open-source, MIT-licensed community lists. Not affiliated with any provider listed.</span>
+      <a href="../../">&uarr; Back to top</a>
+    </div>
+  </div>
+</footer>
+<script src="../../assets/site.js"></script>
+</body>
+</html>

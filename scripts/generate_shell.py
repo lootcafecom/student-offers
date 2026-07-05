@@ -3,18 +3,18 @@ import json
 # Curated "jewel tone" palette — distinct hues, similar lightness/saturation so they cohere as a family
 cat_colors = {
     'Developer Tools': '#4FC3F7',
-    'Cloud & Hosting': '#4DD0B1',
+    'Cloud & Hosting': '#4FA8E8',
     'Learning & Courses': '#FFC857',
     'Productivity': '#B388FF',
     'Design & Creative': '#FF6FA8',
     'Shopping': '#FF9E5E',
-    'Entertainment': '#5EE6D0',
+    'Entertainment': '#FF6B81',
     'Travel & Shipping': '#7EA6FF',
     'Security & Analytics': '#B0B8D9',
     'Data & AI': '#8C9EFF',
     'Marketing & Social': '#FF7BD1',
     'ID Cards & Bundles': '#FFD54F',
-    'Mobile & IoT': '#66E08A',
+    'Mobile & IoT': '#FFAB91',
     'Institutional (Faculty-Only)': '#FF8A80',
     'Other': '#C8CCDB',
 }
@@ -32,12 +32,15 @@ html = """<!DOCTYPE html>
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+<div class="top-strip"></div>
 
 <nav class="navbar">
   <div class="wrap">
-    <div class="brand"><span class="mark">S</span>Student Stash</div>
-    <a href="categories/index.html" style="font-family:'Fira Code',monospace; font-size:12.5px; color:var(--text-soft); text-decoration:none; border:1px solid var(--border); padding:7px 13px; border-radius:8px;">Browse by category</a>
-    <div class="nav-badge" id="nav-count">Loading…</div>
+    <a class="brand" href="./"><span class="mark">S</span>Student Stash</a>
+    <div class="nav-right">
+      <a href="categories/" class="nav-link-btn"><span class="full">Browse by </span>category</a>
+      <div class="nav-badge" id="nav-count">Loading…</div>
+    </div>
   </div>
 </nav>
 <div class="wrap" id="updated-row" style="display:none; padding-top:8px;">
@@ -66,7 +69,7 @@ html = """<!DOCTYPE html>
   <div class="wrap">
     <div class="cat-teaser-head">
       <span class="foot-title" style="margin:0;">Browse by category</span>
-      <a href="categories/index.html" class="view-all-link">View all categories &rarr;</a>
+      <a href="categories/" class="view-all-link">View all categories &rarr;</a>
     </div>
     <div class="cat-teaser-grid" id="cat-teaser"></div>
     <div class="sort-row">
@@ -87,6 +90,8 @@ html = """<!DOCTYPE html>
 
 <footer>
   <div class="wrap">
+    <div class="foot-brand"><span class="mark">S</span>Student Stash</div>
+    <p class="foot-tagline">A searchable index of student discounts and free tools, compiled from open, community-maintained sources.</p>
     <div class="foot-grid">
       <div>
         <span class="foot-title">About this index</span>
@@ -108,7 +113,10 @@ html = """<!DOCTYPE html>
         <p id="cat-list-foot"></p>
       </div>
     </div>
-    <div class="foot-bottom">Compiled from open-source, MIT-licensed community lists. Not affiliated with any provider listed. Prototype build.</div>
+    <div class="foot-bottom">
+      <span>Compiled from open-source, MIT-licensed community lists. Not affiliated with any provider listed. Prototype build.</span>
+      <a href="#">&uarr; Back to top</a>
+    </div>
   </div>
 </footer>
 
@@ -185,8 +193,7 @@ function renderCategoryTeaser() {
   const top = CATEGORIES.slice(0, 6);
   teaser.innerHTML = top.map(name => {
     const color = CAT_COLORS[name] || '#C8CCDB';
-    const rgb = hexToRgb(color);
-    return `<a class="cat-list-card" style="--glow-rgb: ${rgb};" href="categories/${slugify(name)}.html">
+    return `<a class="cat-list-card" href="categories/${slugify(name)}/">
       <h3><span class="dot" style="background:${color}"></span>${name}</h3>
       <p>${COUNTS[name]} offers</p>
     </a>`;
@@ -241,7 +248,7 @@ function renderGrid() {
 
   const grid = document.getElementById('grid');
   if (filtered.length === 0) {
-    grid.innerHTML = `<div class="empty-state">No matches — try a different search term, or <a href="categories/index.html" style="color:#8C9EFF;">browse by category</a> instead.</div>`;
+    grid.innerHTML = `<div class="empty-state">No matches — try a different search term, or <a href="categories/" style="color:#8C9EFF;">browse by category</a> instead.</div>`;
     return;
   }
 

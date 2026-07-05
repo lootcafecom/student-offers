@@ -29,18 +29,18 @@ CATEGORIES_DIR = ROOT / "docs" / "categories"
 
 CAT_COLORS = {
     'Developer Tools': '#4FC3F7',
-    'Cloud & Hosting': '#4DD0B1',
+    'Cloud & Hosting': '#4FA8E8',
     'Learning & Courses': '#FFC857',
     'Productivity': '#B388FF',
     'Design & Creative': '#FF6FA8',
     'Shopping': '#FF9E5E',
-    'Entertainment': '#5EE6D0',
+    'Entertainment': '#FF6B81',
     'Travel & Shipping': '#7EA6FF',
     'Security & Analytics': '#B0B8D9',
     'Data & AI': '#8C9EFF',
     'Marketing & Social': '#FF7BD1',
     'ID Cards & Bundles': '#FFD54F',
-    'Mobile & IoT': '#66E08A',
+    'Mobile & IoT': '#FFAB91',
     'Institutional (Faculty-Only)': '#FF8A80',
     'Other': '#C8CCDB',
 }
@@ -152,19 +152,28 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <link rel="stylesheet" href="{css_path}">
 </head>
 <body>
+<div class="top-strip"></div>
 <nav class="navbar">
   <div class="wrap">
-    <div class="brand"><span class="mark">S</span>Student Stash</div>
-    <div class="nav-badge">{count} offers</div>
+    <a class="brand" href="{home_path}"><span class="mark">S</span>Student Stash</a>
+    <div class="nav-right">
+      <a class="nav-link-btn" href="{index_path}"><span class="full">Browse by </span>category</a>
+      <div class="nav-badge">{count} offers</div>
+    </div>
   </div>
 </nav>
 <div class="wrap">
-  <p class="crumb"><a href="{home_path}">Home</a> / <a href="{index_path}">Categories</a> / {category_name}</p>
+  {crumb}
 </div>
 {body}
 <footer>
   <div class="wrap">
-    <div class="foot-bottom">Compiled from open-source, MIT-licensed community lists. Not affiliated with any provider listed. Prototype build.</div>
+    <div class="foot-brand"><span class="mark">S</span>Student Stash</div>
+    <p class="foot-tagline">A searchable index of student discounts and free tools, compiled from open, community-maintained sources.</p>
+    <div class="foot-bottom">
+      <span>Compiled from open-source, MIT-licensed community lists. Not affiliated with any provider listed.</span>
+      <a href="{home_path}">&uarr; Back to top</a>
+    </div>
   </div>
 </footer>
 <script src="{js_path}"></script>
@@ -203,18 +212,23 @@ document.getElementById('search').addEventListener('input', (e) => {{
 }});
 </script>
 """
+    # Pages now live one directory deeper (categories/<slug>/index.html) so
+    # every relative path needs an extra "../" versus the old flat layout.
     html = PAGE_TEMPLATE.format(
         title=f"{category_name} Student Discounts — Student Stash",
         description=f"{len(offers_in_cat)} student discounts and free tools in {category_name}. {blurb}",
-        css_path="../assets/style.css",
-        home_path="../index.html",
-        index_path="index.html",
+        css_path="../../assets/style.css",
+        home_path="../../",
+        index_path="../",
+        crumb=f'<p class="crumb"><a href="../../">Home</a> / <a href="../">Categories</a> / {esc(category_name)}</p>',
         category_name=esc(category_name),
         count=len(offers_in_cat),
         body=body,
-        js_path="../assets/site.js",
+        js_path="../../assets/site.js",
     )
-    with open(CATEGORIES_DIR / f"{slug}.html", "w") as f:
+    page_dir = CATEGORIES_DIR / slug
+    page_dir.mkdir(parents=True, exist_ok=True)
+    with open(page_dir / "index.html", "w") as f:
         f.write(html)
     return slug
 
@@ -224,10 +238,9 @@ def generate_categories_index(category_counts):
     for name, count in sorted(category_counts.items(), key=lambda x: -x[1]):
         slug = slugify(name)
         color = CAT_COLORS.get(name, '#C8CCDB')
-        rgb = hex_to_rgb(color)
         blurb = CATEGORY_BLURBS.get(name, '')
         cards += f"""
-      <a class="cat-list-card" style="--glow-rgb: {rgb};" href="{slug}.html">
+      <a class="cat-list-card" href="{slug}/">
         <h3><span class="dot" style="background:{color}"></span>{esc(name)}</h3>
         <p>{count} offers &middot; {esc(blurb)}</p>
       </a>"""
@@ -251,8 +264,9 @@ def generate_categories_index(category_counts):
         title="Browse Student Discounts by Category — Student Stash",
         description=f"Browse {total} student discounts and free tools across {len(category_counts)} categories.",
         css_path="../assets/style.css",
-        home_path="../index.html",
-        index_path="index.html",
+        home_path="../",
+        index_path="./",
+        crumb='<p class="crumb"><a href="../">Home</a> / Categories</p>',
         category_name="Categories",
         count=total,
         body=body,
