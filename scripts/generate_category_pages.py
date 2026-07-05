@@ -102,7 +102,7 @@ def favicon_domain(url):
     return m.group(1) if m else None
 
 
-def render_card(o):
+def render_row(o, idx=None):
     color = CAT_COLORS.get(o['category_clean'], '#C8CCDB')
     rgb = hex_to_rgb(color)
     domain = favicon_domain(o['url'])
@@ -114,30 +114,31 @@ def render_card(o):
         f'data-fallback="{initial}" onerror="handleImgError(this)" alt="">'
         if candidates_first else initial
     )
-    verified_badge = '<div class="verified-badge">GITHUB ED. PARTNER</div>' if o.get('pack_verified') else ''
+    verified_badge = '<span class="verified-badge">GITHUB ED. PARTNER</span>' if o.get('pack_verified') else ''
     warn_badges = ''
     if o.get('link_health') in ('dead', 'unreachable', 'ssl_error', 'timeout'):
-        warn_badges += '<div class="warn-badge">LINK MAY BE DOWN</div>'
+        warn_badges += '<span class="warn-badge">LINK MAY BE DOWN</span>'
     if o.get('content_flag') == 'possibly_expired':
-        warn_badges += '<div class="warn-badge">OFFER MAY HAVE ENDED</div>'
+        warn_badges += '<span class="warn-badge">OFFER MAY HAVE ENDED</span>'
+    rank_html = f'<span class="row-rank">{idx + 1}</span>' if idx is not None else ''
 
     return f"""
-      <div class="card" style="--glow-rgb: {rgb};" data-search="{esc((o['name'] + ' ' + o.get('benefit','')).lower())}">
-        <div class="card-top">
-          <div class="favicon">{icon_html}</div>
-          <div class="card-head">
-            <h3>{esc(o['name'])}</h3>
-            <span class="cat-tag"><span class="dot" style="background:{color}"></span>{esc(o['category_clean'])}</span>
+      <a class="offer-row" style="--glow-rgb: {rgb};" href="{o['url']}" target="_blank" rel="noopener" data-search="{esc((o['name'] + ' ' + o.get('benefit','')).lower())}">
+        {rank_html}
+        <div class="favicon">{icon_html}</div>
+        <div class="row-main">
+          <span class="row-name">{esc(o['name'])}
             {verified_badge}
             {warn_badges}
-          </div>
+          </span>
+          <span class="row-benefit">{esc(o.get('benefit',''))}</span>
         </div>
-        <p class="benefit">{esc(o.get('benefit',''))}</p>
-        <div class="card-foot">
+        <span class="row-tag"><span class="dot" style="background:{color}"></span>{esc(o['category_clean'])}</span>
+        <div class="row-right">
           <span class="value-chip {'empty' if not value else ''}">{value or '—'}</span>
-          <a class="claim" href="{o['url']}" target="_blank" rel="noopener">Get it &rarr;</a>
+          <span class="row-visit">Visit &rarr;</span>
         </div>
-      </div>"""
+      </a>"""
 
 
 PAGE_TEMPLATE = """<!DOCTYPE html>
@@ -185,7 +186,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 def generate_category_page(category_name, offers_in_cat):
     slug = slugify(category_name)
     blurb = CATEGORY_BLURBS.get(category_name, '')
-    cards_html = "\n".join(render_card(o) for o in offers_in_cat)
+    rows_html = "\n".join(render_row(o, i) for i, o in enumerate(offers_in_cat))
 
     body = f"""
 <header class="cat-hero">
@@ -199,32 +200,33 @@ def generate_category_page(category_name, offers_in_cat):
 </header>
 <main>
   <div class="wrap">
-    <div class="grid" id="grid">{cards_html}
+    <div class="row-list" id="grid">{rows_html}
     </div>
   </div>
 </main>
 <script>
 document.getElementById('search').addEventListener('input', (e) => {{
   const q = e.target.value.trim().toLowerCase();
-  document.querySelectorAll('#grid .card').forEach(card => {{
-    card.style.display = card.dataset.search.includes(q) ? '' : 'none';
+  document.querySelectorAll('#grid .offer-row').forEach(row => {{
+    row.style.display = row.dataset.search.includes(q) ? '' : 'none';
   }});
 }});
 </script>
 """
-    # Pages now live one directory deeper (categories/<slug>/index.html) so
-    # every relative path needs an extra "../" versus the old flat layout.
+    # Absolute paths from domain root — avoids any dependency on relative
+    # depth, trailing slashes, or host-specific redirect behavior (this was
+    # the root cause of the broken-CSS / 404 issues with relative paths).
     html = PAGE_TEMPLATE.format(
         title=f"{category_name} Student Discounts — Student Stash",
         description=f"{len(offers_in_cat)} student discounts and free tools in {category_name}. {blurb}",
-        css_path="../../assets/style.css",
-        home_path="../../",
-        index_path="../",
-        crumb=f'<p class="crumb"><a href="../../">Home</a> / <a href="../">Categories</a> / {esc(category_name)}</p>',
+        css_path="/assets/style.css",
+        home_path="/",
+        index_path="/categories/",
+        crumb=f'<p class="crumb"><a href="/">Home</a> / <a href="/categories/">Categories</a> / {esc(category_name)}</p>',
         category_name=esc(category_name),
         count=len(offers_in_cat),
         body=body,
-        js_path="../../assets/site.js",
+        js_path="/assets/site.js",
     )
     page_dir = CATEGORIES_DIR / slug
     page_dir.mkdir(parents=True, exist_ok=True)
@@ -240,7 +242,7 @@ def generate_categories_index(category_counts):
         color = CAT_COLORS.get(name, '#C8CCDB')
         blurb = CATEGORY_BLURBS.get(name, '')
         cards += f"""
-      <a class="cat-list-card" href="{slug}/">
+      <a class="cat-list-card" href="/categories/{slug}/">
         <h3><span class="dot" style="background:{color}"></span>{esc(name)}</h3>
         <p>{count} offers &middot; {esc(blurb)}</p>
       </a>"""
@@ -263,14 +265,14 @@ def generate_categories_index(category_counts):
     html = PAGE_TEMPLATE.format(
         title="Browse Student Discounts by Category — Student Stash",
         description=f"Browse {total} student discounts and free tools across {len(category_counts)} categories.",
-        css_path="../assets/style.css",
-        home_path="../",
-        index_path="./",
-        crumb='<p class="crumb"><a href="../">Home</a> / Categories</p>',
+        css_path="/assets/style.css",
+        home_path="/",
+        index_path="/categories/",
+        crumb='<p class="crumb"><a href="/">Home</a> / Categories</p>',
         category_name="Categories",
         count=total,
         body=body,
-        js_path="../assets/site.js",
+        js_path="/assets/site.js",
     )
     with open(CATEGORIES_DIR / "index.html", "w") as f:
         f.write(html)
