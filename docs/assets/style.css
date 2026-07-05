@@ -60,20 +60,7 @@
   .hero-stats { display: flex; justify-content: center; gap: 26px; font-family: 'Fira Code', monospace; font-size: 12.5px; color: var(--text-faint); margin-bottom: 6px; }
   .hero-stats b { color: var(--text); font-weight: 600; }
 
-  .controls { padding: 26px 0 8px; }
-  .chips { display: flex; gap: 9px; flex-wrap: wrap; justify-content: center; margin-bottom: 6px; }
-  .chip {
-    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500;
-    padding: 8px 15px; border-radius: 20px; border: 1px solid var(--border);
-    background: var(--card); color: var(--text-soft); cursor: pointer;
-    display: inline-flex; align-items: center; gap: 7px; transition: all 0.15s ease;
-  }
-  .chip .dot { width: 8px; height: 8px; border-radius: 50%; }
-  .chip .n { font-family: 'Fira Code', monospace; font-size: 10.5px; color: var(--text-faint); }
-  .chip:hover { border-color: rgba(255,255,255,0.22); color: var(--text); }
-  .chip.active { color: var(--text); font-weight: 600; }
-
-  .sort-row { display: flex; justify-content: center; align-items: center; gap: 16px; margin: 14px 0 8px; font-family: 'Fira Code', monospace; font-size: 12px; color: var(--text-faint); }
+  .search-view-head { display: flex; align-items: center; justify-content: space-between; margin: 6px 0 20px; font-family: 'Fira Code', monospace; font-size: 13px; color: var(--text-faint); }
   select#sort {
     font-family: 'Fira Code', monospace; font-size: 12px; background: var(--card); color: var(--text-soft);
     border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; cursor: pointer;
@@ -175,11 +162,14 @@
 }
 .cat-search input:focus { border-color: rgba(140,158,255,0.6); box-shadow: 0 0 0 4px rgba(140,158,255,0.14); }
 
-/* Homepage category teaser — compact, links out to the full category pages */
-.cat-teaser-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-.view-all-link { font-family: 'Fira Code', monospace; font-size: 12px; color: #8C9EFF; text-decoration: none; }
-.view-all-link:hover { text-decoration: underline; }
-.cat-teaser-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-bottom: 22px; }
-.cat-teaser-grid .cat-list-card { padding: 14px 16px; }
-.cat-teaser-grid .cat-list-card h3 { font-size: 14px; margin-bottom: 3px; }
-.cat-teaser-grid .cat-list-card p { font-size: 11px; }
+/* Homepage category sections — each category gets a heading + horizontal preview row */
+.cat-section { margin-bottom: 40px; }
+.cat-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.cat-section-head h2 { font-family: 'Sora', sans-serif; font-size: 19px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 9px; white-space: nowrap; }
+.cat-section-head h2 .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.cat-section-head .see-all { font-family: 'Fira Code', monospace; font-size: 12.5px; color: #8C9EFF; text-decoration: none; white-space: nowrap; }
+.cat-section-head .see-all:hover { text-decoration: underline; }
+.cat-row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x proximity; }
+.cat-row::-webkit-scrollbar { height: 6px; }
+.cat-row::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.cat-row .card { flex: 0 0 270px; scroll-snap-align: start; }
