@@ -172,6 +172,27 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   <div class="wrap">
     <div class="foot-brand"><span class="mark">S</span>Student Stash</div>
     <p class="foot-tagline">A searchable index of student discounts and free tools, compiled from open, community-maintained sources.</p>
+    <div class="foot-grid">
+      <div>
+        <span class="foot-title">About this index</span>
+        <p>Student Stash indexes free tools, cloud credits, software licenses, and everyday discounts available to students. Every entry links directly to the provider — verify eligibility and current terms there, since offers change often. Entries marked <b>GitHub Ed. Partner</b> were cross-checked against GitHub Education's official current-partner list.</p>
+      </div>
+      <div>
+        <span class="foot-title">Data sources</span>
+        <ul>
+          <li><a class="src" href="https://github.com/ShreyamMaity/student-offers" target="_blank" rel="noopener">ShreyamMaity/student-offers ↗</a></li>
+          <li><a class="src" href="https://github.com/AchoArnold/discount-for-student-dev" target="_blank" rel="noopener">AchoArnold/discount-for-student-dev ↗</a></li>
+          <li><a class="src" href="https://github.com/OpenGenus/Best-student-discount-services" target="_blank" rel="noopener">OpenGenus/Best-student-discount-services ↗</a></li>
+          <li><a class="src" href="https://github.com/couponswift/awesome-student-software-deals" target="_blank" rel="noopener">couponswift/awesome-student-software-deals ↗</a></li>
+          <li><a class="src" href="https://github.com/jhaxce/student-perks" target="_blank" rel="noopener">jhaxce/student-perks ↗</a></li>
+          <li><a class="src" href="https://github.com/github-education-resources/Student-Developer-Pack-Current-Partners-FAQ" target="_blank" rel="noopener">Official GitHub Education partner list ↗</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="foot-title">Categories</span>
+        <p>{categories_list}</p>
+      </div>
+    </div>
     <div class="foot-bottom">
       <span>Compiled from open-source, MIT-licensed community lists. Not affiliated with any provider listed.</span>
       <a href="{home_path}">&uarr; Back to top</a>
@@ -226,6 +247,7 @@ document.getElementById('search').addEventListener('input', (e) => {{
         crumb=f'<p class="crumb"><a href="/">Home</a> / <a href="/categories/">Categories</a> / {esc(category_name)}</p>',
         category_name=esc(category_name),
         count=len(offers_in_cat),
+        categories_list=esc(', '.join(sorted(CAT_COLORS.keys()))),
         body=body,
         js_path="/assets/site.js",
     )
@@ -272,6 +294,7 @@ def generate_categories_index(category_counts):
         crumb='<p class="crumb"><a href="/">Home</a> / Categories</p>',
         category_name="Categories",
         count=total,
+        categories_list=esc(', '.join(sorted(CAT_COLORS.keys()))),
         body=body,
         js_path="/assets/site.js",
     )

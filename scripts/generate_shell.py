@@ -57,7 +57,7 @@ html = """<!DOCTYPE html>
       <input id="search" type="text" placeholder="Search by tool, brand, or category...">
     </div>
     <div class="hero-stats">
-      <span><b id="count-showing">…</b> of <b id="count-total">…</b> shown</span>
+      <span><b id="count-total">…</b> offers</span>
       <span>&middot;</span>
       <span><b id="count-cats">…</b> categories</span>
       <span>&middot;</span>
@@ -71,7 +71,7 @@ html = """<!DOCTYPE html>
     <div id="browse-view"></div>
     <div id="search-view" style="display:none;">
       <div class="search-view-head">
-        <span id="count-showing-wrap"><b id="count-showing">…</b> results</span>
+        <span><b id="count-results">…</b> results</span>
         <select id="sort">
           <option value="name">Sort: Name (A–Z)</option>
           <option value="category">Sort: Category</option>
@@ -343,7 +343,7 @@ function renderGrid() {
     return a.name.localeCompare(b.name);
   });
 
-  document.getElementById('count-showing').textContent = filtered.length;
+  document.getElementById('count-results').textContent = filtered.length;
 
   const grid = document.getElementById('grid');
   if (filtered.length === 0) {
