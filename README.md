@@ -110,7 +110,31 @@ Pick whichever of the four existing parsers matches that list's markdown
 format (look at the raw README to tell which). If it uses a genuinely new
 format, add a new parser function next to the others in the same file.
 
-## Known limits (read before assuming "all" offers are covered)
+## Category pages
+
+Alongside the main `docs/index.html`, there's now `docs/categories/` — a
+real, pre-rendered page per category (`developer-tools.html`,
+`cloud-hosting.html`, etc.) plus a `categories/index.html` directory linking
+to all of them. Unlike the main site, these pages render their cards
+directly into the HTML at build time rather than fetching JSON — better for
+sharing a direct link to one category, and better for search engines, since
+there's real crawlable content on load rather than an empty shell waiting
+on JavaScript.
+
+These regenerate automatically as part of the same daily workflow
+(`scripts/generate_category_pages.py` runs after the data sync + link
+check), so they stay in sync with `docs/offers_data.json` without any
+manual step. If you ever change the site's visual design, update the CSS
+in `docs/assets/style.css` — both the main page and every category page
+read from that one shared file.
+
+Country pages were considered and intentionally skipped: most of these 467
+offers are global (verified by student email, not gated by country), so a
+per-country split would mean guessing region data for entries that don't
+actually have it. If real geographic data becomes available for a
+meaningful chunk of offers later, this is worth revisiting.
+
+
 
 - This only re-syncs the **open, static GitHub source lists** already wired
   up — it does not (and structurally can't, without a different approach)
