@@ -114,7 +114,6 @@ def render_row(o, idx=None):
         f'data-fallback="{initial}" onerror="handleImgError(this)" alt="">'
         if candidates_first else initial
     )
-    verified_badge = '<span class="verified-badge">GITHUB ED. PARTNER</span>' if o.get('pack_verified') else ''
     warn_badges = ''
     if o.get('link_health') in ('dead', 'unreachable', 'ssl_error', 'timeout'):
         warn_badges += '<span class="warn-badge">LINK MAY BE DOWN</span>'
@@ -128,7 +127,6 @@ def render_row(o, idx=None):
         <div class="favicon">{icon_html}</div>
         <div class="row-main">
           <span class="row-name">{esc(o['name'])}
-            {verified_badge}
             {warn_badges}
           </span>
           <span class="row-benefit">{esc(o.get('benefit',''))}</span>
@@ -175,7 +173,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <div class="foot-grid">
       <div>
         <span class="foot-title">About this index</span>
-        <p>Student Stash indexes free tools, cloud credits, software licenses, and everyday discounts available to students. Every entry links directly to the provider — verify eligibility and current terms there, since offers change often. Entries marked <b>GitHub Ed. Partner</b> were cross-checked against GitHub Education's official current-partner list.</p>
+        <p>Student Stash indexes free tools, cloud credits, software licenses, and everyday discounts available to students. Every entry links directly to the provider — verify eligibility and current terms there, since offers change often.</p>
       </div>
       <div>
         <span class="foot-title">Data sources</span>
@@ -251,9 +249,7 @@ document.getElementById('search').addEventListener('input', (e) => {{
         body=body,
         js_path="/assets/site.js",
     )
-    page_dir = CATEGORIES_DIR / slug
-    page_dir.mkdir(parents=True, exist_ok=True)
-    with open(page_dir / "index.html", "w") as f:
+    with open(CATEGORIES_DIR / f"{slug}.html", "w") as f:
         f.write(html)
     return slug
 
@@ -265,7 +261,7 @@ def generate_categories_index(category_counts):
         color = CAT_COLORS.get(name, '#C8CCDB')
         blurb = CATEGORY_BLURBS.get(name, '')
         cards += f"""
-      <a class="cat-list-card" href="/categories/{slug}/">
+      <a class="cat-list-card" href="/categories/{slug}">
         <h3><span class="dot" style="background:{color}"></span>{esc(name)}</h3>
         <p>{count} offers &middot; {esc(blurb)}</p>
       </a>"""

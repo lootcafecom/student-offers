@@ -1,5 +1,5 @@
 {
   "outputDirectory": "docs",
   "cleanUrls": true,
-  "trailingSlash": true
+  "trailingSlash": false
 }

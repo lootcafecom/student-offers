@@ -37,8 +37,6 @@
       <span><b id="count-total">…</b> offers</span>
       <span>&middot;</span>
       <span><b id="count-cats">…</b> categories</span>
-      <span>&middot;</span>
-      <span><b id="count-verified">…</b> GitHub Ed. verified</span>
     </div>
   </div>
 </header>
@@ -66,7 +64,7 @@
     <div class="foot-grid">
       <div>
         <span class="foot-title">About this index</span>
-        <p>Student Stash indexes free tools, cloud credits, software licenses, and everyday discounts available to students. Every card links directly to the provider — verify eligibility and current terms there, since offers change often. Cards marked <b>GitHub Ed. Partner</b> were cross-checked against GitHub Education's official current-partner list.</p>
+        <p>Student Stash indexes free tools, cloud credits, software licenses, and everyday discounts available to students. Every card links directly to the provider — verify eligibility and current terms there, since offers change often.</p>
       </div>
       <div>
         <span class="foot-title">Data sources</span>
@@ -116,7 +114,6 @@ async function loadData() {
     document.getElementById('eyebrow').textContent = TOTAL + '+ Student Offers · One Page';
     document.getElementById('count-total').textContent = TOTAL;
     document.getElementById('count-cats').textContent = CATEGORIES.length;
-    document.getElementById('count-verified').textContent = OFFERS.filter(o => o.pack_verified).length;
     document.getElementById('cat-list-foot').textContent = CATEGORIES.join(', ');
 
     try {
@@ -169,7 +166,6 @@ function rowHtml(o, idx) {
       <div class="favicon">${iconHtml}</div>
       <div class="row-main">
         <span class="row-name">${escapeHtml(o.name)}
-          ${o.pack_verified ? '<span class="verified-badge">GITHUB ED. PARTNER</span>' : ''}
           ${o.link_health && ['dead','unreachable','ssl_error','timeout'].includes(o.link_health) ? '<span class="warn-badge">LINK MAY BE DOWN</span>' : ''}
           ${o.content_flag === 'possibly_expired' ? '<span class="warn-badge">OFFER MAY HAVE ENDED</span>' : ''}
         </span>
@@ -184,36 +180,6 @@ function rowHtml(o, idx) {
   `;
 }
 
-function cardHtml(o) {
-  const color = CAT_COLORS[o.category_clean] || '#C8CCDB';
-  const rgb = hexToRgb(color);
-  const domain = faviconDomain(o.url);
-  const value = extractValue(o.benefit);
-  const initial = o.name.trim().charAt(0).toUpperCase();
-  const candidates = domain ? faviconCandidates(domain) : [];
-  const iconHtml = candidates.length
-    ? `<img src="${candidates[0]}" data-idx="0" data-domain="${domain}" data-fallback="${initial}" onerror="handleImgError(this)" alt="">`
-    : initial;
-  return `
-    <div class="card" style="--glow-rgb: ${rgb};">
-      <div class="card-top">
-        <div class="favicon">${iconHtml}</div>
-        <div class="card-head">
-          <h3>${escapeHtml(o.name)}</h3>
-          <span class="cat-tag"><span class="dot" style="background:${color}"></span>${o.category_clean}</span>
-          ${o.pack_verified ? '<div class="verified-badge">GITHUB ED. PARTNER</div>' : ''}
-          ${o.link_health && ['dead','unreachable','ssl_error','timeout'].includes(o.link_health) ? '<div class="warn-badge">LINK MAY BE DOWN</div>' : ''}
-          ${o.content_flag === 'possibly_expired' ? '<div class="warn-badge">OFFER MAY HAVE ENDED</div>' : ''}
-        </div>
-      </div>
-      <p class="benefit">${escapeHtml(o.benefit)}</p>
-      <div class="card-foot">
-        <span class="value-chip ${value ? '' : 'empty'}">${value || '—'}</span>
-        <a class="claim" href="${o.url}" target="_blank" rel="noopener">Get it &rarr;</a>
-      </div>
-    </div>
-  `;
-}
 
 function miniRowHtml(o, idx) {
   const domain = faviconDomain(o.url);
@@ -244,7 +210,7 @@ function renderCategoryGrid() {
           <h3><span class="dot" style="background:${color}"></span>${name}</h3>
         </div>
         <div class="cat-grid-list">${preview.map((o, i) => miniRowHtml(o, i)).join('')}</div>
-        <a class="cat-grid-see-all" href="/categories/${slugify(name)}/">See all category (${COUNTS[name]}) &rarr;</a>
+        <a class="cat-grid-see-all" href="/categories/${slugify(name)}">See all category (${COUNTS[name]}) &rarr;</a>
       </div>
     `;
   }).join('') + `</div>`;
