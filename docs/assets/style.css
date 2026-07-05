@@ -8,14 +8,29 @@
     --text-faint: rgba(238,240,250,0.40);
     --border: rgba(255,255,255,0.09);
     --brand-gradient: linear-gradient(90deg, #8C9EFF, #FF6FA8 60%, #FFC857);
+    --page-bg:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(140,158,255,0.16), transparent 60%),
+      radial-gradient(ellipse 800px 500px at 100% 0%, rgba(255,158,94,0.10), transparent 60%),
+      #0B0E1A;
+    --navbar-bg: rgba(11,14,26,0.82);
+  }
+  /* Light mode — inspired by aixploria.com's soft lavender/white palette */
+  [data-theme="light"] {
+    --bg: #EEF1FA;
+    --bg-2: #F7F8FD;
+    --card: #FFFFFF;
+    --card-hover: #F3F5FC;
+    --text: #1B1E29;
+    --text-soft: rgba(27,30,41,0.65);
+    --text-faint: rgba(27,30,41,0.42);
+    --border: rgba(27,30,41,0.10);
+    --page-bg: #EEF1FA;
+    --navbar-bg: rgba(238,241,250,0.88);
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(140,158,255,0.16), transparent 60%),
-      radial-gradient(ellipse 800px 500px at 100% 0%, rgba(255,158,94,0.10), transparent 60%),
-      var(--bg);
+    background: var(--page-bg);
     color: var(--text);
     font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -25,7 +40,7 @@
   ::selection { background: rgba(140,158,255,0.35); }
 
   .top-strip { height: 3px; background: var(--brand-gradient); }
-  .navbar { position: sticky; top: 0; z-index: 30; backdrop-filter: blur(10px); background: rgba(11,14,26,0.82); border-bottom: 1px solid var(--border); }
+  .navbar { position: sticky; top: 0; z-index: 30; backdrop-filter: blur(10px); background: var(--navbar-bg); border-bottom: 1px solid var(--border); }
   .navbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 18px; height: 70px; }
   .brand { display: flex; align-items: center; gap: 11px; font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18.5px; letter-spacing: -0.01em; text-decoration: none; color: var(--text); }
   .brand .mark {
@@ -41,6 +56,12 @@
   }
   .nav-link-btn:hover { border-color: rgba(255,255,255,0.28); color: var(--text); }
   .nav-badge { font-family: 'Fira Code', monospace; font-size: 12px; color: var(--text-soft); border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; white-space: nowrap; }
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 9px; border: 1px solid var(--border); background: var(--card);
+    cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px;
+    flex-shrink: 0; transition: border-color 0.15s ease;
+  }
+  .theme-toggle:hover { border-color: rgba(140,158,255,0.5); }
   @media (max-width: 560px) { .nav-link-btn span.full { display: none; } }
 
   .hero { padding: 68px 0 44px; text-align: center; }
@@ -190,14 +211,26 @@
 }
 .cat-search input:focus { border-color: rgba(140,158,255,0.6); box-shadow: 0 0 0 4px rgba(140,158,255,0.14); }
 
-/* Homepage category sections — each category gets a heading + horizontal preview row */
-.cat-section { margin-bottom: 40px; }
-.cat-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
-.cat-section-head h2 { font-family: 'Sora', sans-serif; font-size: 19px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 9px; white-space: nowrap; }
-.cat-section-head h2 .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-.cat-section-head .see-all { font-family: 'Fira Code', monospace; font-size: 12.5px; color: #8C9EFF; text-decoration: none; white-space: nowrap; }
-.cat-section-head .see-all:hover { text-decoration: underline; }
-.cat-row { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x proximity; }
-.cat-row::-webkit-scrollbar { height: 6px; }
-.cat-row::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.cat-row .card { flex: 0 0 270px; scroll-snap-align: start; }
+/* Homepage category grid — 4 columns, each a compact top-10 list with a "see all" footer */
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 8px; }
+.cat-grid-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.cat-grid-head { padding: 15px 16px 13px; border-bottom: 3px solid var(--border); }
+.cat-grid-head h3 { font-family: 'Sora', sans-serif; font-size: 14.5px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px; }
+.cat-grid-head .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cat-grid-list { padding: 6px 8px; flex: 1; }
+.mini-row { display: flex; align-items: center; gap: 9px; padding: 7px 8px; text-decoration: none; color: var(--text); border-radius: 7px; }
+.mini-row:hover { background: var(--card-hover); }
+.mini-row .mini-rank { font-family: 'Fira Code', monospace; font-size: 11px; color: var(--text-faint); width: 16px; text-align: right; flex-shrink: 0; }
+.mini-row .mini-favicon { width: 20px; height: 20px; border-radius: 5px; background: var(--bg-2); border: 1px solid var(--border); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; font-family: 'Sora', sans-serif; font-size: 10px; font-weight: 700; color: var(--text-faint); }
+.mini-row .mini-favicon img { width: 13px; height: 13px; }
+.mini-row .mini-name { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-row .mini-ext { flex-shrink: 0; color: var(--text-faint); font-size: 12px; }
+.cat-grid-see-all {
+  display: block; text-align: center; padding: 11px; margin-top: auto;
+  font-family: 'Fira Code', monospace; font-size: 11.5px; font-weight: 600;
+  background: var(--bg-2); color: var(--text-soft); text-decoration: none;
+  border-top: 1px solid var(--border);
+}
+.cat-grid-see-all:hover { color: var(--text); }
+@media (max-width: 1000px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .cat-grid { grid-template-columns: 1fr; } }

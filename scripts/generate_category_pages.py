@@ -160,6 +160,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <div class="nav-right">
       <a class="nav-link-btn" href="{index_path}"><span class="full">Browse by </span>category</a>
       <div class="nav-badge">{count} offers</div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">🌙</button>
     </div>
   </div>
 </nav>
