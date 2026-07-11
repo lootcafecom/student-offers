@@ -1,5 +1,5 @@
 {
-  "last_source_sync": "2026-07-10T08:57:46.907323+00:00",
+  "last_source_sync": "2026-07-11T07:29:54.182064+00:00",
   "total_offers": 485,
   "categories": [
     "Cloud & Hosting",
@@ -19,18 +19,23 @@
     "Travel & Shipping"
   ],
   "pack_verified_count": 67,
-  "last_link_check": "2026-07-10T08:57:47.097901+00:00",
+  "last_link_check": "2026-07-11T07:29:54.363443+00:00",
   "link_health_summary": {
-    "ok": 384,
+    "ok": 381,
     "redirect": 0,
-    "dead": 77,
-    "unreachable": 11,
-    "timeout": 12,
+    "dead": 79,
+    "unreachable": 10,
+    "timeout": 14,
     "ssl_error": 1,
     "error": 0
   },
   "possibly_expired_count": 6,
   "possibly_expired": [
+    {
+      "name": "Transloadit",
+      "url": "https://transloadit.com/github-students/",
+      "phrase": "no longer available"
+    },
     {
       "name": "Lenovo Student Store",
       "url": "https://www.lenovo.com/in/en/d/students-offer/",
@@ -54,11 +59,6 @@
     {
       "name": "Google Gemini",
       "url": "https://gemini.google/students/",
-      "phrase": "no longer available"
-    },
-    {
-      "name": "Bump.sh",
-      "url": "https://bump.sh/students",
       "phrase": "no longer available"
     }
   ]
