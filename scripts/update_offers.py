@@ -80,6 +80,16 @@ SOURCES = [
         "url": "https://raw.githubusercontent.com/Elele-Group/free-for-students/main/README.md",
         "parser": "bullet_list",
     },
+    {
+        "name": "kamath/student-free-stuff",
+        "url": "https://raw.githubusercontent.com/kamath/student-free-stuff/master/README.md",
+        "parser": "bullet_list",
+    },
+    {
+        "name": "Aashish-po/edu-email-benefits",
+        "url": "https://raw.githubusercontent.com/Aashish-po/edu-email-benefits/main/README.md",
+        "parser": "verification_table",
+    },
 ]
 
 OFFICIAL_PARTNERS_URL = "https://raw.githubusercontent.com/github-education-resources/Student-Developer-Pack-Current-Partners-FAQ/main/README.md"
@@ -87,17 +97,18 @@ OFFICIAL_PARTNERS_URL = "https://raw.githubusercontent.com/github-education-reso
 CATEGORY_KEYWORDS = [
     ("Developer Tools", ["saas", "paas", "ci / cd", "ci/cd", "software pack", "softwares",
      "software licensing", "develop", "code", "repo", "ide", "version control", "devops",
-     "api", "smtp", "email", "test", "website", "source code"]),
+     "api", "smtp", "email", "test", "website", "source code", "software & development"]),
     ("Cloud & Hosting", ["cloud", "hosting", "server", "infrastructure", "domain", "dns",
-     "cpanel", "web & domains"]),
+     "cpanel", "web & domains", "cloud services"]),
     ("Design & Creative", ["design", "art", "ui/ux", "3d", "render", "animation", "game", "prototype", "creative"]),
-    ("Learning & Courses", ["learn", "education", "course", "certification", "career", "job search"]),
+    ("Learning & Courses", ["learn", "education", "course", "certification", "career", "job search", "learning platform"]),
     ("Data & AI", ["data cleaner", "data analysis", "ai ml", "ai-powered", "ai &", "ai and",
      "ai tool", "database service", "data science", "machine learning"]),
     ("Shopping", ["shop", "product", "electronic", "apparel", "vehicle", "lens", "spectacle", "hardware"]),
     ("Entertainment", ["music", "video", "entertain", "newspaper", "streaming", "cinema", "meditation", "lifestyle"]),
     ("Productivity", ["productiv", "note", "password", "tool", "screen record", "visual analytics",
-     "monitoring", "survey", "portfolio", "diagram", "project management", "business problem", "collaboration"]),
+     "monitoring", "survey", "portfolio", "diagram", "project management", "business problem", "collaboration",
+     "for all institutions"]),
     ("Security & Analytics", ["security", "analytic", "insurance", "cybersecurity", "privacy"]),
     ("Marketing & Social", ["market", "social"]),
     ("Mobile & IoT", ["mobile", "iot", "internet of things", "cellular"]),
@@ -224,11 +235,34 @@ def parse_plain_url_table(text, source_name):
     return results
 
 
+def parse_verification_table(text, source_name):
+    """Format: | [Name](url) | emoji **Benefit** | Verification method | [-> Claim](link) |"""
+    results = []
+    current_section = "Other"
+    header_re = re.compile(r"^#{1,4}\s+(.+)$")
+    row_re = re.compile(r"^\|\s*\[(.+?)\]\((https?://[^)]+)\)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|\s*\[.*?\]\((https?://[^)]+)\)\s*\|\s*$")
+    for line in text.split("\n"):
+        h = header_re.match(line)
+        if h:
+            title = re.sub(r"^[^\w]+", "", h.group(1).strip()).strip()
+            if title.lower() not in ("service", "table of contents"):
+                current_section = title
+            continue
+        r = row_re.match(line)
+        if r:
+            name, url, benefit, verification, _ = r.groups()
+            benefit_clean = re.sub(r"[🟢🟡🟣🔵🟠🔴]", "", benefit).replace("**", "").strip()
+            full_benefit = f"{benefit_clean} — {verification}".strip(" —")
+            results.append({"name": name.strip(), "url": url.strip(), "benefit": full_benefit, "category": current_section, "source": source_name})
+    return results
+
+
 PARSERS = {
     "pipe_table_link_first": parse_pipe_table_link_first,
     "bullet_list": parse_bullet_list,
     "rich_table": parse_rich_table,
     "plain_url_table": parse_plain_url_table,
+    "verification_table": parse_verification_table,
 }
 
 
