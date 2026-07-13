@@ -234,3 +234,27 @@
 .cat-grid-see-all:hover { color: var(--text); }
 @media (max-width: 1000px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .cat-grid { grid-template-columns: 1fr; } }
+
+/* Offer detail pages */
+.offer-hero { padding: 40px 0 10px; }
+.offer-hero-top { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+.offer-hero-top .favicon { font-size: 22px; }
+.offer-hero-top .favicon img { width: 30px; height: 30px; }
+.offer-hero h1 { font-family: 'Sora', sans-serif; font-size: clamp(24px, 4vw, 34px); font-weight: 800; margin: 0 0 6px; letter-spacing: -0.01em; }
+.offer-cat-link { font-family: 'Fira Code', monospace; font-size: 12.5px; color: var(--text-faint); text-decoration: none; display: inline-flex; align-items: center; gap: 7px; }
+.offer-cat-link:hover { color: var(--text-soft); }
+.offer-cat-link .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.offer-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.offer-badges .value-chip { font-size: 12px; padding: 6px 12px; background: rgba(var(--glow-rgb,140,158,255),0.16); }
+.offer-benefit { font-size: 16.5px; line-height: 1.7; color: var(--text-soft); max-width: 680px; margin: 0 0 16px; }
+.offer-health-note { font-size: 13px; color: #FFB454; background: rgba(255,180,84,0.08); border: 1px solid rgba(255,180,84,0.25); border-radius: 8px; padding: 10px 14px; max-width: 680px; margin: 0 0 12px; }
+.offer-cta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 22px 0 18px; }
+.offer-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Sora', sans-serif; font-weight: 700; font-size: 15px;
+  padding: 14px 24px; border-radius: 10px; background: var(--brand-gradient); color: #0B0E1A; text-decoration: none;
+}
+.offer-disclaimer { font-size: 12.5px; color: var(--text-faint); max-width: 620px; line-height: 1.6; margin: 0 0 30px; padding-top: 16px; border-top: 1px dashed var(--border); }
+.related-section { margin: 10px 0 60px; }
+.related-section h2 { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 700; margin: 0 0 14px; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }

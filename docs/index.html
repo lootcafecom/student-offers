@@ -160,8 +160,9 @@ function rowHtml(o, idx) {
     ? `<img src="${candidates[0]}" data-idx="0" data-domain="${domain}" data-fallback="${initial}" onerror="handleImgError(this)" alt="">`
     : initial;
   const rankHtml = (idx !== undefined && idx !== null) ? `<span class="row-rank">${idx + 1}</span>` : '';
+  const href = o.slug ? `/offers/${o.slug}` : o.url;
   return `
-    <a class="offer-row" style="--glow-rgb: ${rgb};" href="${o.url}" target="_blank" rel="noopener">
+    <a class="offer-row" style="--glow-rgb: ${rgb};" href="${href}">
       ${rankHtml}
       <div class="favicon">${iconHtml}</div>
       <div class="row-main">
@@ -174,7 +175,7 @@ function rowHtml(o, idx) {
       <span class="row-tag"><span class="dot" style="background:${color}"></span>${o.category_clean}</span>
       <div class="row-right">
         <span class="value-chip ${value ? '' : 'empty'}">${value || '—'}</span>
-        <span class="row-visit">Visit &rarr;</span>
+        <span class="row-visit">Details &rarr;</span>
       </div>
     </a>
   `;
@@ -188,12 +189,13 @@ function miniRowHtml(o, idx) {
   const iconHtml = candidates.length
     ? `<img src="${candidates[0]}" data-idx="0" data-domain="${domain}" data-fallback="${initial}" onerror="handleImgError(this)" alt="">`
     : initial;
+  const href = o.slug ? `/offers/${o.slug}` : o.url;
   return `
-    <a class="mini-row" href="${o.url}" target="_blank" rel="noopener">
+    <a class="mini-row" href="${href}">
       <span class="mini-rank">${idx + 1}.</span>
       <div class="mini-favicon">${iconHtml}</div>
       <span class="mini-name">${escapeHtml(o.name)}</span>
-      <span class="mini-ext">&#8599;</span>
+      <span class="mini-ext">&rarr;</span>
     </a>
   `;
 }
