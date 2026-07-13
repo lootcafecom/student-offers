@@ -131,6 +131,31 @@ def norm_name(name):
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
+def slugify(name):
+    s = re.sub(r"[^\w\s-]", "", name.lower())
+    s = re.sub(r"[\s_]+", "-", s).strip("-")
+    return s or "item"
+
+
+def assign_slugs(offers):
+    """Give every offer a stable, unique slug for its detail page URL.
+    Offers that already have one keep it — slugs must never change once
+    assigned, or previously-shared /offers/<slug> links would break."""
+    used = {o["slug"] for o in offers if o.get("slug")}
+    for o in offers:
+        if o.get("slug"):
+            continue
+        base = slugify(o["name"])
+        candidate = base
+        n = 2
+        while candidate in used:
+            candidate = f"{base}-{n}"
+            n += 1
+        o["slug"] = candidate
+        used.add(candidate)
+    return offers
+
+
 def fetch(url):
     resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
     resp.raise_for_status()
@@ -365,6 +390,8 @@ def main():
         print(f"Official partner cross-check: {verified_count} confirmed current")
     except Exception as e:
         print(f"Official partner list fetch FAILED ({e}) — skipping this cross-check for this run")
+
+    offers = assign_slugs(offers)
 
     with open(DATA_FILE, "w") as f:
         json.dump(offers, f, indent=2)
