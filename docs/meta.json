@@ -1,6 +1,6 @@
 {
-  "last_source_sync": "2026-07-12T16:06:42.113567+00:00",
-  "total_offers": 526,
+  "last_source_sync": "2026-07-13T08:43:40.999489+00:00",
+  "total_offers": 543,
   "categories": [
     "Cloud & Hosting",
     "Data & AI",
@@ -18,7 +18,58 @@
     "Shopping",
     "Travel & Shipping"
   ],
-  "pack_verified_count": 60,
-  "last_link_check": null,
-  "link_health_summary": null
+  "pack_verified_count": 67,
+  "last_link_check": "2026-07-13T08:43:41.201568+00:00",
+  "link_health_summary": {
+    "ok": 430,
+    "redirect": 0,
+    "dead": 88,
+    "unreachable": 10,
+    "timeout": 14,
+    "ssl_error": 1,
+    "error": 0
+  },
+  "possibly_expired_count": 8,
+  "possibly_expired": [
+    {
+      "name": "Transloadit",
+      "url": "https://transloadit.com/github-students/",
+      "phrase": "no longer available"
+    },
+    {
+      "name": "Lenovo Student Store",
+      "url": "https://www.lenovo.com/in/en/d/students-offer/",
+      "phrase": "no longer available"
+    },
+    {
+      "name": "Mubi",
+      "url": "https://mubi.com/promos/student-india",
+      "phrase": "no longer available"
+    },
+    {
+      "name": "CorelDRAW",
+      "url": "https://www.coreldraw.com/en/education/",
+      "phrase": "no longer available"
+    },
+    {
+      "name": "Logic Pro (Apple)",
+      "url": "https://www.apple.com/us-edu/shop/product/BMGE2Z/A/pro-apps-bundle-for-education",
+      "phrase": "no longer available"
+    },
+    {
+      "name": "Google Gemini",
+      "url": "https://gemini.google/students/",
+      "phrase": "no longer available"
+    },
+    {
+      "name": "CATIA",
+      "url": "https://academy.3ds.com/en/software/catia-v5-student-edition",
+      "phrase": "no longer available"
+    },
+    {
+      "name": "Lenovo Student Discount",
+      "url": "https://www.lenovo.com/us/en/studentdiscount",
+      "phrase": "no longer available"
+    }
+  ]
 }
