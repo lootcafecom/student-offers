@@ -1,5 +1,5 @@
 {
-  "last_source_sync": "2026-07-15T07:47:45.783182+00:00",
+  "last_source_sync": "2026-07-16T07:52:23.545553+00:00",
   "total_offers": 543,
   "categories": [
     "Cloud & Hosting",
@@ -19,14 +19,14 @@
     "Travel & Shipping"
   ],
   "pack_verified_count": 67,
-  "last_link_check": "2026-07-15T07:47:45.958892+00:00",
+  "last_link_check": "2026-07-16T07:52:23.733466+00:00",
   "link_health_summary": {
-    "ok": 431,
+    "ok": 430,
     "redirect": 0,
-    "dead": 86,
-    "unreachable": 12,
-    "timeout": 14,
-    "ssl_error": 0,
+    "dead": 87,
+    "unreachable": 10,
+    "timeout": 15,
+    "ssl_error": 1,
     "error": 0
   },
   "possibly_expired_count": 7,
