@@ -1,5 +1,5 @@
 {
-  "last_source_sync": "2026-09-01T10:39:39.315376+00:00",
+  "last_source_sync": "2026-09-02T10:05:34.705973+00:00",
   "total_offers": 546,
   "categories": [
     "Cloud & Hosting",
@@ -19,13 +19,13 @@
     "Travel & Shipping"
   ],
   "pack_verified_count": 67,
-  "last_link_check": "2026-09-01T10:39:39.491100+00:00",
+  "last_link_check": "2026-09-02T10:05:34.859963+00:00",
   "link_health_summary": {
-    "ok": 432,
+    "ok": 431,
     "redirect": 0,
     "dead": 92,
     "unreachable": 10,
-    "timeout": 10,
+    "timeout": 11,
     "ssl_error": 2,
     "error": 0
   },
